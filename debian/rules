@@ -1,0 +1,26 @@
+#!/usr/bin/make -f
+
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+
+%:
+	dh $@ --with=systemd
+
+override_dh_auto_build:
+	make -f Makefile.linux
+
+override_dh_installinit:
+	dh_installinit --no-start --noscripts
+override_dh_auto_install:
+	@echo "Skipping the install to /usr/local"
+
+override_dh_auto_clean:
+	make -f Makefile.linux clean
+	-rm gen_fff
+	-rm direwolf.conf
+
+override_dh_fixperms-arch:
+	dh_fixperms
+	chmod 644 debian/direwolf/usr/share/direwolf/dw-icon.png
+override_dh_systemd_enable:
+	dh_systemd_enable \
+		--no-enable

@@ -1,0 +1,9 @@
+
+The documentation PDFs are built from the corresponding *.docx Microsoft Word
+documents in the debian/ directory. These are produced using the Save As PDF
+function in Microsoft Word.
+
+The PDFs are included in the source package to remove the need to automate this
+PDF creation as part of the build process. If these documents are modified, the
+corresponding PDFs should be reproduced.
+

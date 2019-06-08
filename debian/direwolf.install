@@ -1,0 +1,13 @@
+direwolf	usr/bin
+decode_aprs	usr/bin
+text2tt		usr/bin
+tt2text		usr/bin
+aclients	usr/bin
+log2gpx		usr/bin
+gen_packets	usr/bin
+atest		usr/bin
+tocalls.txt	usr/share/direwolf
+symbols-new.txt	usr/share/direwolf
+symbolsX.txt	usr/share/direwolf
+dw-icon.png	usr/share/direwolf
+debian/direwolf.desktop	usr/share/applications

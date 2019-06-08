@@ -1,0 +1,12 @@
+[Unit]
+Description=DireWolf is a software "soundcard" modem/TNC and APRS decoder
+Documentation=man:direwolf
+AssertPathExists=/etc/direwolf.conf
+
+[Service]
+User=direwolf
+SupplementaryGroups=dialout
+ExecStart=/usr/bin/direwolf -c /etc/direwolf.conf
+
+[Install]
+WantedBy=multi-user.target

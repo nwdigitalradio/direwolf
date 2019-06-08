@@ -1,0 +1,22 @@
+Description: Do not override and ensure use of CFLAGS and LDFLAGS
+Author: Iain R. Learmonth <irl@fsfe.org>
+Last-Update: 2014-09-08
+
+--- a/Makefile.linux
++++ b/Makefile.linux
+@@ -402,13 +402,13 @@
+ # Multiple AGWPE network or serial port clients to test TNCs side by side.
+ 
+ aclients : aclients.c ax25_pad.c fcs_calc.c textcolor.o misc.a
+-	$(CC) $(CFLAGS) -g -o $@ $^ 
++	$(CC) $(CFLAGS) -g -o $@ $^ $(LDFLAGS)
+ 
+ 
+ # Touch Tone to Speech sample application.
+ 
+ ttcalc : ttcalc.o ax25_pad.o fcs_calc.o textcolor.o misc.a
+-	$(CC) $(CFLAGS) -g -o $@ $^ 
++	$(CC) $(CFLAGS) -g -o $@ $^ $(LDFLAGS)
+ 
+ 
+ # -----------------------------------------  Libraries  --------------------------------------------
