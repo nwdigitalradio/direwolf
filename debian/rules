@@ -2,6 +2,14 @@
 
 export DEB_BUILD_MAINT_OPTIONS = hardening=+all
 
+
+DEB_BUILD_ARCH ?= $(shell dpkg-architecture -qDEB_BUILD_ARCH)
+ifeq "$(DEB_BUILD_ARCH)" "armhf"
+	CFLAGS += -O3 -ffast-math -mfpu=neon-vfpv4 -funsafe-math-optimizations
+else ifeq "$(DEB_BUILD_ARCH)" "amd64"
+	CFLAGS += -O3 -ffast-math -march=native
+endif
+
 %:
 	dh $@ --with=systemd
 
