@@ -1,0 +1,49 @@
+if: NOT commit_message =~ /^Travis Build/
+language: c
+dist: xenial
+
+services:
+  - docker
+
+install:
+  - sudo apt-get install git-buildpackage
+  - git branch master origin/master
+  - git branch debian origin/debian
+  - git checkout debian
+  - mkdir ../pkgs
+  - gbp dch --upstream-branch=master --debian-branch=debian --git-author --snapshot -v
+  - git add debian/changelog
+  - git config --global user.email "travis@travis-ci.com"
+  - git config --global user.name "Travis CI"
+  - git commit -m "Travis Build $TRAVIS_BUILD_NUMBER"
+
+before_script:
+  - git checkout travisci-armhf
+  - git rebase refs/heads/debian
+  - docker build -t armhf-builder .
+  - docker create --name builder armhf-builder
+
+script:
+  - docker cp builder:/pkgs .
+  - mv pkgs/* .
+
+after_success:
+  - git remote set-url origin https://mcdermj:$GITHUB_ACCESS_TOKEN@github.com/nwdigitalradio/direwolf.git
+  - git checkout debian
+  - gbp buildpackage --git-upstream-branch=master --git-debian-branch=debian --git-upstream-tree=BRANCH --git-ignore-new --git-tag --git-retag --git-tag-only
+  - git push
+
+git:
+  depth: false
+
+deploy:
+  skip_cleanup: true
+  package_glob: "*.deb"
+  provider: packagecloud
+  repository: compass
+  username: nwdigitalradio
+  token:
+    secure: G2A2+OztVves/YVlVzbTE4e8CKLpu5XI5YnnrzUEEWsLUTsl+JbcVMXbmAef+FbU6aui/+MYZzt1Y2qIxw6aVlHfv2M5puWoiKhJltEFFnUQprMQoWEVIwue3w7bBQGCGvEndR1+GLmdw1480CjCkUYIk2MZ4micZ9vZIYX1uCKkn+TQhAO04cecHhOBhKOS0DBjPMlfP33UDgOj9ujk5JF4gFPQoZnZCeOIF//IysEcD5ns3/iPMRcTWC0kLxbGP3eRJvPc7I8/xm8/M1TWqV5XfXUZI1R4URAJtZEuC9NSuGtQnvtDhYHdTXQ6xingmb1lQbL41Ny1AvcK/5jIZ2OOX/SH2pxyqfkLfx27iJ8uns2OWGjqBVR8Maf2KGPzMXz/nWIbYsT22an9Fq2ECi9BVmvrDUdvMg/Jk1pLzfMY8Oq4CoFh9pVSDg0732KXO172XnHDhL3DV3pXAtmJdrCZKa4afNUWivYabOLDD/ddbL6UGZ54Z8/JgIScnvDKhLxU82ZJ64Yw7pn9fWK701FKmJyTdr2xyLISVwF/TiWCffWk/4pri5P3Z1fTSRSYFF8qs0LtuCYDHD2yBRbEBZaB5JiIJXugv+7BkFaorQzffdCus78TfqKEMFjsMYVYVa501tpUnaYWUlWa/bg6dE59pnYHvAWxKcIjy0cRZi0=
+  dist: raspbian/stretch
+  on:
+    branch: travisci-armhf
