@@ -1,6 +1,6 @@
-direwolf (1.6-1~1.gbpce2702) UNRELEASED; urgency=medium
+direwolf (1.6-1~2.gbp8a9ae3) UNRELEASED; urgency=medium
 
-  ** SNAPSHOT build @ce2702d08289512831a82be9736eb3a16774e583 **
+  ** SNAPSHOT build @8a9ae36355623de8a0ca978d7b17b14de8b39b18 **
 
   [ wb2osz ]
   * Add link to separate repository with presentations.
@@ -12,7 +12,10 @@ direwolf (1.6-1~1.gbpce2702) UNRELEASED; urgency=medium
   * Add the direwolf.desktop file
   * Changed Rules for Optimization
 
- -- Annaliese McDermond <nh6z@nh6z.net>  Sat, 08 Jun 2019 21:04:42 -0700
+  [ Travis CI User ]
+  * UNRELEASED
+
+ -- Travis CI User <travis@example.org>  Sun, 09 Jun 2019 19:50:51 +0000
 
 direwolf (1.5+dfsg-1) unstable; urgency=medium
 
